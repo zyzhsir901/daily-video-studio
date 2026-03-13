@@ -15,11 +15,15 @@ def _preview(value: Any, limit: int = 500) -> str:
     return text[:limit]
 
 
+def _dump(value: Any) -> str:
+    return json.dumps(value, ensure_ascii=False) if not isinstance(value, str) else value
+
+
 def _post_event(base_url: str, endpoint: str, data: list[Any], debug: bool = False) -> str:
     url = f"{base_url}/gradio_api/call/{endpoint}"
     if debug:
         print(f"{endpoint} POST URL: {url}")
-        print(f"{endpoint} POST payload preview: {_preview({'data': data}, limit=1200)}")
+        print(f"{endpoint} POST payload full: {_dump({'data': data})}")
     response = requests.post(
         url,
         json={"data": data},
@@ -27,7 +31,9 @@ def _post_event(base_url: str, endpoint: str, data: list[Any], debug: bool = Fal
     )
     response.raise_for_status()
     if debug:
-        print(f"{endpoint} POST response preview: {_preview(response.text, limit=1200)}")
+        print(f"{endpoint} POST response status: {response.status_code}")
+        print(f"{endpoint} POST response headers: {_dump(dict(response.headers))}")
+        print(f"{endpoint} POST response full: {response.text}")
     payload = response.json()
     event_id = payload.get("event_id")
     if not event_id:
@@ -45,6 +51,7 @@ def _wait_for_event(base_url: str, endpoint: str, event_id: str, timeout: int = 
     poll_url = f"{base_url}/gradio_api/call/{endpoint}/{event_id}"
     if debug:
         print(f"{endpoint} poll URL: {poll_url}")
+        print(f"{endpoint} wait timeout seconds: {timeout}")
 
     while time.monotonic() - started_at < timeout and last_data is None:
         elapsed = int(time.monotonic() - started_at)
@@ -59,6 +66,9 @@ def _wait_for_event(base_url: str, endpoint: str, event_id: str, timeout: int = 
                 timeout=(30, read_timeout_seconds),
             ) as response:
                 response.raise_for_status()
+                if debug:
+                    print(f"{endpoint} poll response status: {response.status_code}")
+                    print(f"{endpoint} poll response headers: {_dump(dict(response.headers))}")
                 for line in response.iter_lines(decode_unicode=True):
                     if time.monotonic() - started_at >= timeout:
                         preview = _preview("\n".join(raw_lines) if raw_lines else "")
@@ -122,7 +132,9 @@ def _wait_for_event(base_url: str, endpoint: str, event_id: str, timeout: int = 
             fallback_text = fallback_response.text.strip()
             if fallback_text:
                 if debug:
-                    print(f"{endpoint} fallback response preview: {_preview(fallback_text, limit=1200)}")
+                    print(f"{endpoint} fallback response status: {fallback_response.status_code}")
+                    print(f"{endpoint} fallback response headers: {_dump(dict(fallback_response.headers))}")
+                    print(f"{endpoint} fallback response full: {fallback_text}")
                 raw_lines.append(fallback_text)
                 try:
                     last_data = fallback_response.json()
@@ -138,7 +150,9 @@ def _wait_for_event(base_url: str, endpoint: str, event_id: str, timeout: int = 
         preview = _preview("\n".join(raw_lines) if raw_lines else "")
         raise ValueError(f"No result returned for endpoint {endpoint}. Stream preview: {preview}")
     if debug:
-        print(f"{endpoint} final parsed result preview: {_preview(last_data, limit=1200)}")
+        elapsed = int(time.monotonic() - started_at)
+        print(f"{endpoint} final parsed result full: {_dump(last_data)}")
+        print(f"{endpoint} total wait seconds: {elapsed}")
     return last_data
 
 
@@ -290,6 +304,21 @@ def generate_video(
     input_image_reference: str | None = None,
 ) -> Path:
     image_input = input_image_reference or str(image_path)
+    print("generate_video request settings:")
+    print(f"  input_image_reference: {image_input}")
+    print(f"  prompt: {prompt}")
+    print(f"  duration_seconds: {duration_seconds}")
+    print(f"  inference_steps: {inference_steps}")
+    print(f"  negative_prompt: {negative_prompt}")
+    print(f"  generation_mode: {generation_mode}")
+    print(f"  enhance_prompt: {enhance_prompt}")
+    print(f"  seed: {seed}")
+    print(f"  randomize_seed: {randomize_seed}")
+    print(f"  height: {height}")
+    print(f"  width: {width}")
+    print(f"  camera_lora: {camera_lora}")
+    print(f"  display_result: {display_result}")
+    print(f"  event_timeout_seconds: {event_timeout_seconds}")
     event_id = _post_event(
         base_url,
         "generate_video",
@@ -321,5 +350,5 @@ def generate_video(
     if not isinstance(result, list) or not result:
         raise ValueError("Video generation returned an unexpected payload")
     video_ref = result[0] if len(result) > 0 else None
-    print(f"Video API result preview: {_preview(video_ref)}")
+    print(f"Video API result full: {_dump(video_ref)}")
     return _save_artifact(base_url, video_ref, output_path)

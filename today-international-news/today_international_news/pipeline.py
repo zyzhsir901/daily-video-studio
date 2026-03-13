@@ -175,6 +175,11 @@ def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path],
             continue
 
         try:
+            print(
+                f"Segment {segment.rank} video job: "
+                f"headline={segment.headline} | clip_duration={segment.duration_seconds or default_duration}s | "
+                f"wait_timeout={video_event_timeout_seconds}s"
+            )
             generated_clip = generate_video(
                 image_path=image_path,
                 output_path=clip_path,
