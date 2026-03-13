@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+from urllib.parse import quote
 
 from dotenv import load_dotenv
 
@@ -72,6 +73,26 @@ def _save_script(path: Path, package: VideoPackage) -> None:
     path.write_text("\n".join(lines).strip() + "\n", encoding="utf-8")
 
 
+def _github_blob_url(path: Path) -> str | None:
+    repository = os.getenv("GITHUB_REPOSITORY")
+    if not repository:
+        return None
+    try:
+        relative = path.resolve().relative_to(Path.cwd().resolve())
+    except ValueError:
+        return None
+    return f"https://github.com/{repository}/blob/main/{quote(relative.as_posix(), safe='/')}"
+
+
+def _log_artifact(label: str, path: Path | None) -> None:
+    if not path:
+        return
+    print(f"{label}: {path}")
+    github_url = _github_blob_url(path)
+    if github_url:
+        print(f"{label} GitHub URL: {github_url}")
+
+
 def _clear_previous_outputs() -> None:
     runs_root = _runs_root()
     if runs_root.exists():
@@ -134,9 +155,11 @@ def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path],
             )
             segment_record["image_path"] = str(generated_image)
             segment_record["image_status"] = "ok"
+            _log_artifact(f"Segment {segment.rank} image", generated_image)
         except Exception as exc:
             segment_record["image_status"] = f"failed: {exc}"
             segment_record["video_status"] = "skipped"
+            print(f"Segment {segment.rank} image generation failed: {exc}")
             manifest_segments.append(segment_record)
             continue
 
@@ -159,9 +182,11 @@ def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path],
             )
             segment_record["clip_path"] = str(generated_clip)
             segment_record["video_status"] = "ok"
+            _log_artifact(f"Segment {segment.rank} raw clip", generated_clip)
         except Exception as exc:
             segment_record["video_status"] = f"failed: {exc}"
             segment_record["subtitle_status"] = "skipped"
+            print(f"Segment {segment.rank} video generation failed: {exc}")
             manifest_segments.append(segment_record)
             continue
 
@@ -177,8 +202,10 @@ def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path],
             clips.append(edited_clip)
             segment_record["edited_clip_path"] = str(edited_clip)
             segment_record["subtitle_status"] = "ok"
+            _log_artifact(f"Segment {segment.rank} subtitled clip", edited_clip)
         except Exception as exc:
             segment_record["subtitle_status"] = f"failed: {exc}"
+            print(f"Segment {segment.rank} subtitle burn failed: {exc}")
 
         manifest_segments.append(segment_record)
 
@@ -191,6 +218,8 @@ def run_pipeline() -> Path:
 
     report_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     max_news = int(os.getenv("PIPELINE_MAX_NEWS", "8"))
+    video_height = int(os.getenv("VIDEO_HEIGHT") or "768")
+    video_width = int(os.getenv("VIDEO_WIDTH") or "512")
     _clear_previous_outputs()
     run_root = _run_root(report_date)
     ensure_dir(run_root)
@@ -206,6 +235,8 @@ def run_pipeline() -> Path:
 
     _save_json(planning_dir / "video_package.json", package.to_dict())
     _save_script(script_dir / "video_script.md", package)
+    _log_artifact("Video package JSON", planning_dir / "video_package.json")
+    _log_artifact("Video script", script_dir / "video_script.md")
 
     clips, manifest_segments = _generate_assets(run_root, package)
 
@@ -228,11 +259,15 @@ def run_pipeline() -> Path:
                 height=video_height,
                 duration_seconds=2.0,
             )
+            _log_artifact("Intro clip", intro_clip)
+            _log_artifact("Outro clip", outro_clip)
             assembly_inputs = [intro_clip, *clips, outro_clip]
             final_video_path = assemble_clips_ffmpeg(assembly_inputs, outputs_dir / "final_video.mp4")
             final_video_status = "ok"
+            _log_artifact("Final video", final_video_path)
         except Exception as exc:
             final_video_status = f"failed: {exc}"
+            print(f"Final video assembly failed: {exc}")
 
     manifest = {
         "report_date": report_date,
@@ -245,4 +280,5 @@ def run_pipeline() -> Path:
         "segments": manifest_segments,
     }
     _save_json(outputs_dir / "manifest.json", manifest)
+    _log_artifact("Manifest", outputs_dir / "manifest.json")
     return run_root
