@@ -2,50 +2,60 @@
   "report_date": "2026-03-13",
   "rss_url": "https://news.google.com/rss/headlines/section/topic/WORLD?hl=en-US&gl=US&ceid=US:en",
   "topic_url": "https://news.google.com/topics/CAAqKggKIiRDQkFTRlFvSUwyMHZNRGx1YlY4U0JXVnVMVWRDR2dKRFFTZ0FQAQ?hl=en-US&gl=US&ceid=US%3Aen",
-  "selected_segments": 4,
-  "video_title": "全球巨震：中东战火蔓延，地缘格局大重组",
+  "selected_segments": 5,
+  "video_title": "全球局势突变：战火蔓延与能源动荡",
   "final_video_path": null,
   "final_video_status": "skipped",
   "segments": [
     {
       "rank": 1,
-      "headline": "伊朗新领导层强硬发声，冲突升级",
-      "image_path": null,
+      "headline": "伊朗战火引发全球石油危机",
+      "image_path": "/home/runner/work/daily-video-studio/daily-video-studio/today-international-news/runs/2026-03-13/assets/images/01.png",
       "clip_path": null,
       "edited_clip_path": null,
-      "image_status": "failed: Could not resolve artifact location from API response",
-      "video_status": "skipped",
-      "subtitle_status": "pending"
+      "image_status": "ok",
+      "video_status": "failed: No result returned for endpoint generate_video",
+      "subtitle_status": "skipped"
     },
     {
       "rank": 2,
-      "headline": "全球能源危机：霍尔木兹海峡受控",
-      "image_path": null,
+      "headline": "伊朗权力结构变动，誓言战火继续",
+      "image_path": "/home/runner/work/daily-video-studio/daily-video-studio/today-international-news/runs/2026-03-13/assets/images/02.png",
       "clip_path": null,
       "edited_clip_path": null,
-      "image_status": "failed: Could not resolve artifact location from API response",
-      "video_status": "skipped",
-      "subtitle_status": "pending"
+      "image_status": "ok",
+      "video_status": "failed: No result returned for endpoint generate_video",
+      "subtitle_status": "skipped"
     },
     {
       "rank": 3,
-      "headline": "战火外溢，国际博弈白热化",
-      "image_path": null,
+      "headline": "战火延伸至迪拜，军事资产遭威胁",
+      "image_path": "/home/runner/work/daily-video-studio/daily-video-studio/today-international-news/runs/2026-03-13/assets/images/03.png",
       "clip_path": null,
       "edited_clip_path": null,
-      "image_status": "failed: Could not resolve artifact location from API response",
-      "video_status": "skipped",
-      "subtitle_status": "pending"
+      "image_status": "ok",
+      "video_status": "failed: No result returned for endpoint generate_video",
+      "subtitle_status": "skipped"
     },
     {
       "rank": 4,
-      "headline": "全球防务大转向：从北极到贸易战",
-      "image_path": null,
+      "headline": "中美贸易摩擦升温，经济竞争加剧",
+      "image_path": "/home/runner/work/daily-video-studio/daily-video-studio/today-international-news/runs/2026-03-13/assets/images/04.png",
       "clip_path": null,
       "edited_clip_path": null,
-      "image_status": "failed: Could not resolve artifact location from API response",
-      "video_status": "skipped",
-      "subtitle_status": "pending"
+      "image_status": "ok",
+      "video_status": "failed: No result returned for endpoint generate_video",
+      "subtitle_status": "skipped"
+    },
+    {
+      "rank": 5,
+      "headline": "地缘政治重组：全球联盟新版图",
+      "image_path": "/home/runner/work/daily-video-studio/daily-video-studio/today-international-news/runs/2026-03-13/assets/images/05.png",
+      "clip_path": null,
+      "edited_clip_path": null,
+      "image_status": "ok",
+      "video_status": "failed: No result returned for endpoint generate_video",
+      "subtitle_status": "skipped"
     }
   ]
 }
