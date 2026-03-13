@@ -37,7 +37,11 @@ def _wait_for_event(base_url: str, endpoint: str, event_id: str, timeout: int = 
     response.raise_for_status()
 
     last_data: Any = None
+    raw_lines: list[str] = []
     for line in response.iter_lines(decode_unicode=True):
+        if line is None:
+            continue
+        raw_lines.append(line)
         if not line or not line.startswith("data:"):
             continue
         raw = line[5:].strip()
@@ -48,8 +52,36 @@ def _wait_for_event(base_url: str, endpoint: str, event_id: str, timeout: int = 
         except json.JSONDecodeError:
             last_data = raw
 
+    if last_data is None and raw_lines:
+        joined = "\n".join(raw_lines)
+        try:
+            last_data = json.loads(joined)
+        except json.JSONDecodeError:
+            pass
+
     if last_data is None:
-        raise ValueError(f"No result returned for endpoint {endpoint}")
+        try:
+            fallback_response = requests.get(
+                f"{base_url}/gradio_api/call/{endpoint}/{event_id}",
+                timeout=120,
+            )
+            fallback_response.raise_for_status()
+            fallback_text = fallback_response.text.strip()
+            if fallback_text:
+                raw_lines.append(fallback_text)
+                try:
+                    last_data = fallback_response.json()
+                except json.JSONDecodeError:
+                    try:
+                        last_data = json.loads(fallback_text)
+                    except json.JSONDecodeError:
+                        last_data = fallback_text
+        except requests.RequestException:
+            pass
+
+    if last_data is None:
+        preview = _preview("\n".join(raw_lines) if raw_lines else "")
+        raise ValueError(f"No result returned for endpoint {endpoint}. Stream preview: {preview}")
     return last_data
 
 
