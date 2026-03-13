@@ -65,20 +65,17 @@ Optional:
 - `GEMINI_MODEL=gemini-3.1-flash-lite-preview`
 - `PIPELINE_MAX_NEWS=8`
 - `IMAGE_API_BASE_URL=https://tongyi-mai-z-image-turbo.hf.space`
-- `IMAGE_RATIO=1024x1024 ( 1:1 )`
-- `VIDEO_API_BASE_URL=https://r3gm-wan2-2-fp8da-aoti-preview.hf.space`
+- `IMAGE_RATIO=768x1024 ( 3:4 )`
+- `VIDEO_API_BASE_URL=https://alexnasa-ltx-2-turbo.hf.space`
 - `VIDEO_HIGH_RES=false`
 - `VIDEO_DURATION_SECONDS=3.0`
 - `VIDEO_HEIGHT=768`
 - `VIDEO_WIDTH=512`
 - `VIDEO_INFERENCE_STEPS=1`
 - `VIDEO_NEGATIVE_PROMPT=`
-- `VIDEO_GUIDANCE_HIGH=0`
-- `VIDEO_GUIDANCE_LOW=0`
-- `VIDEO_QUALITY=1`
-- `VIDEO_SCHEDULER=FlowMatchEulerDiscrete`
-- `VIDEO_FLOW_SHIFT=0.5`
-- `VIDEO_FPS=16`
+- `VIDEO_GENERATION_MODE=Image-to-Video`
+- `VIDEO_CAMERA_LORA=No LoRA`
+- `VIDEO_ENHANCE_PROMPT=true`
 - `VIDEO_DISPLAY_RESULT=true`
 - `VIDEO_EVENT_TIMEOUT_SECONDS=120`
 
@@ -99,18 +96,16 @@ Repository secrets to configure:
 - `VIDEO_WIDTH` optional
 - `VIDEO_INFERENCE_STEPS` optional
 - `VIDEO_NEGATIVE_PROMPT` optional
-- `VIDEO_GUIDANCE_HIGH` optional
-- `VIDEO_GUIDANCE_LOW` optional
-- `VIDEO_QUALITY` optional
-- `VIDEO_SCHEDULER` optional
-- `VIDEO_FLOW_SHIFT` optional
-- `VIDEO_FPS` optional
+- `VIDEO_GENERATION_MODE` optional
+- `VIDEO_CAMERA_LORA` optional
+- `VIDEO_ENHANCE_PROMPT` optional
 - `VIDEO_DISPLAY_RESULT` optional
 - `VIDEO_EVENT_TIMEOUT_SECONDS` optional
 
 Important:
 
 - The image API is public by default in this project.
-- The default video API now points to the public `r3gm-wan2-2-fp8da-aoti-preview` Hugging Face Space.
+- The default video API now points to the public `alexnasa-ltx-2-turbo` Hugging Face Space.
+- Default image and video settings are portrait-oriented.
 - Before each run, the pipeline clears the previous generated content under `today-international-news/runs/` and then commits the new images, clips, manifests, and final video back to GitHub.
 - The workflow code now lives under `today-international-news/today_international_news/`.

@@ -118,8 +118,8 @@ def _generate_video_package(report_date: str, digest: str, max_news: int) -> Vid
 
 def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path], list[dict]]:
     image_base_url = (os.getenv("IMAGE_API_BASE_URL") or "https://tongyi-mai-z-image-turbo.hf.space").rstrip("/")
-    image_ratio = os.getenv("IMAGE_RATIO") or "1024x1024 ( 1:1 )"
-    video_base_url = (os.getenv("VIDEO_API_BASE_URL") or "https://r3gm-wan2-2-fp8da-aoti-preview.hf.space").rstrip("/")
+    image_ratio = os.getenv("IMAGE_RATIO") or "768x1024 ( 3:4 )"
+    video_base_url = (os.getenv("VIDEO_API_BASE_URL") or "https://alexnasa-ltx-2-turbo.hf.space").rstrip("/")
     video_high_res = (os.getenv("VIDEO_HIGH_RES") or "false").lower() == "true"
     default_duration = float(os.getenv("VIDEO_DURATION_SECONDS") or "3.0")
     video_height = int(os.getenv("VIDEO_HEIGHT") or "768")
@@ -186,12 +186,9 @@ def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path],
                 width=video_width,
                 inference_steps=int(os.getenv("VIDEO_INFERENCE_STEPS") or "1"),
                 negative_prompt=os.getenv("VIDEO_NEGATIVE_PROMPT") or "",
-                guidance_scale_high=float(os.getenv("VIDEO_GUIDANCE_HIGH") or "0"),
-                guidance_scale_low=float(os.getenv("VIDEO_GUIDANCE_LOW") or "0"),
-                video_quality=int(os.getenv("VIDEO_QUALITY") or "1"),
-                scheduler=os.getenv("VIDEO_SCHEDULER") or "FlowMatchEulerDiscrete",
-                flow_shift=float(os.getenv("VIDEO_FLOW_SHIFT") or "0.5"),
-                fps=os.getenv("VIDEO_FPS") or "16",
+                generation_mode=os.getenv("VIDEO_GENERATION_MODE") or "Image-to-Video",
+                camera_lora=os.getenv("VIDEO_CAMERA_LORA") or "No LoRA",
+                enhance_prompt=(os.getenv("VIDEO_ENHANCE_PROMPT") or "true").lower() == "true",
                 display_result=(os.getenv("VIDEO_DISPLAY_RESULT") or "true").lower() == "true",
                 event_timeout_seconds=video_event_timeout_seconds,
                 input_image_reference=image_source,
