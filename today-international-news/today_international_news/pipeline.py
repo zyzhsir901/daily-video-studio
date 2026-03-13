@@ -14,7 +14,7 @@ from .media_clients import generate_image, generate_video
 from .models import NewsItem, VideoPackage
 from .news_sources import NEWS_SOURCE_URL, RSS_URL, build_digest, fetch_google_news_items
 from .package_builder import build_video_package
-from .utils import ensure_dir, extract_json_object
+from .utils import ensure_dir
 
 
 def _content_root() -> Path:
@@ -87,14 +87,11 @@ def _write_inputs(inputs_dir: Path, items: list[NewsItem], digest: str) -> None:
 
 
 def _generate_video_package(report_date: str, digest: str, max_news: int) -> VideoPackage:
-    result = TodayInternationalNewsCrew().crew().kickoff(
-        inputs={
-            "report_date": report_date,
-            "news_digest": digest,
-            "max_news": max_news,
-        }
+    payload = TodayInternationalNewsCrew().run(
+        report_date=report_date,
+        news_digest=digest,
+        max_news=max_news,
     )
-    payload = extract_json_object(str(result))
     return build_video_package(payload, max_news=max_news)
 
 
@@ -164,7 +161,7 @@ def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path],
 
 def run_pipeline() -> Path:
     load_dotenv()
-    _require_env("OPENAI_API_KEY")
+    _require_env("GEMINI_API_KEY")
 
     report_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     max_news = int(os.getenv("PIPELINE_MAX_NEWS", "8"))

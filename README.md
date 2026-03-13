@@ -54,11 +54,11 @@ python -m today_international_news.main
 
 Required:
 
-- `OPENAI_API_KEY`
+- `GEMINI_API_KEY`
 
 Optional:
 
-- `OPENAI_MODEL_NAME=gpt-4o-mini`
+- `GEMINI_MODEL=gemini-3.1-flash-lite-preview`
 - `PIPELINE_MAX_NEWS=8`
 - `IMAGE_API_BASE_URL=https://tongyi-mai-z-image-turbo.hf.space`
 - `IMAGE_RATIO=1024x1024 ( 1:1 )`
@@ -72,8 +72,8 @@ The workflow supports manual runs and a daily schedule.
 
 Repository secrets to configure:
 
-- `OPENAI_API_KEY`
-- `OPENAI_MODEL_NAME` optional
+- `GEMINI_API_KEY`
+- `GEMINI_MODEL` optional
 - `IMAGE_API_BASE_URL` optional
 - `IMAGE_RATIO` optional
 - `VIDEO_API_BASE_URL` required for video generation
