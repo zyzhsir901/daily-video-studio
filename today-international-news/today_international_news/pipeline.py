@@ -124,6 +124,7 @@ def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path],
     default_duration = float(os.getenv("VIDEO_DURATION_SECONDS") or "3.0")
     video_height = int(os.getenv("VIDEO_HEIGHT") or "768")
     video_width = int(os.getenv("VIDEO_WIDTH") or "512")
+    video_event_timeout_seconds = int(os.getenv("VIDEO_EVENT_TIMEOUT_SECONDS") or "120")
 
     images_dir = ensure_dir(run_root / "assets" / "images")
     clips_dir = ensure_dir(run_root / "assets" / "clips")
@@ -188,6 +189,7 @@ def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path],
                 flow_shift=float(os.getenv("VIDEO_FLOW_SHIFT") or "0.5"),
                 fps=os.getenv("VIDEO_FPS") or "16",
                 display_result=(os.getenv("VIDEO_DISPLAY_RESULT") or "true").lower() == "true",
+                event_timeout_seconds=video_event_timeout_seconds,
             )
             segment_record["clip_path"] = str(generated_clip)
             segment_record["video_status"] = "ok"

@@ -80,6 +80,7 @@ Optional:
 - `VIDEO_FLOW_SHIFT=0.5`
 - `VIDEO_FPS=16`
 - `VIDEO_DISPLAY_RESULT=true`
+- `VIDEO_EVENT_TIMEOUT_SECONDS=120`
 
 ## GitHub Actions
 
@@ -105,6 +106,7 @@ Repository secrets to configure:
 - `VIDEO_FLOW_SHIFT` optional
 - `VIDEO_FPS` optional
 - `VIDEO_DISPLAY_RESULT` optional
+- `VIDEO_EVENT_TIMEOUT_SECONDS` optional
 
 Important:
 

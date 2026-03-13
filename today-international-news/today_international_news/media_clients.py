@@ -259,6 +259,7 @@ def generate_video(
     flow_shift: float = 0.5,
     fps: str = "16",
     display_result: bool = True,
+    event_timeout_seconds: int = 120,
 ) -> Path:
     event_id = _post_event(
         base_url,
@@ -281,7 +282,7 @@ def generate_video(
             display_result,
         ],
     )
-    result = _wait_for_event(base_url, "generate_video", event_id, timeout=1800)
+    result = _wait_for_event(base_url, "generate_video", event_id, timeout=event_timeout_seconds)
     if not isinstance(result, list) or not result:
         raise ValueError("Video generation returned an unexpected payload")
     video_ref = result[0] if len(result) > 0 else None

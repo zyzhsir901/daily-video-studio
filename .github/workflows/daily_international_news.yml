@@ -58,6 +58,7 @@ jobs:
           VIDEO_FLOW_SHIFT: ${{ secrets.VIDEO_FLOW_SHIFT }}
           VIDEO_FPS: ${{ secrets.VIDEO_FPS }}
           VIDEO_DISPLAY_RESULT: ${{ secrets.VIDEO_DISPLAY_RESULT }}
+          VIDEO_EVENT_TIMEOUT_SECONDS: ${{ secrets.VIDEO_EVENT_TIMEOUT_SECONDS }}
           PIPELINE_MAX_NEWS: 8
           PYTHONPATH: today-international-news
         run: python -m today_international_news.main
