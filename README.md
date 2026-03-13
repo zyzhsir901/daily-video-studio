@@ -11,8 +11,10 @@ The pipeline follows a standard editorial workflow:
 3. Use CrewAI to select the top 8 stories and build a structured video package
 4. Generate one image per story
 5. Generate one short motion clip per story
-6. Concatenate clips into a final video with FFmpeg
-7. Save the run outputs into the repository
+6. Burn subtitles onto each story clip
+7. Add an intro title card and a follow-like-save outro card
+8. Concatenate clips into a final video with FFmpeg
+9. Save the run outputs into the repository
 
 ## News Inputs
 
@@ -37,6 +39,8 @@ Main artifacts:
 - `video_package.json`
 - `video_script.md`
 - `manifest.json`
+- `intro.mp4`
+- `outro.mp4`
 - `final_video.mp4` when clip generation succeeds
 
 ## Local Run

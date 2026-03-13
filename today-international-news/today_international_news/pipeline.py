@@ -8,7 +8,7 @@ import shutil
 
 from dotenv import load_dotenv
 
-from .assembler import assemble_clips_ffmpeg
+from .assembler import assemble_clips_ffmpeg, burn_subtitles, create_title_card
 from .crew import TodayInternationalNewsCrew
 from .media_clients import generate_image, generate_video
 from .models import NewsItem, VideoPackage
@@ -106,19 +106,23 @@ def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path],
 
     images_dir = ensure_dir(run_root / "assets" / "images")
     clips_dir = ensure_dir(run_root / "assets" / "clips")
+    edited_clips_dir = ensure_dir(run_root / "assets" / "edited_clips")
 
     clips: list[Path] = []
     manifest_segments: list[dict] = []
     for segment in package.segments:
         image_path = images_dir / f"{segment.rank:02d}.png"
         clip_path = clips_dir / f"{segment.rank:02d}.mp4"
+        edited_clip_path = edited_clips_dir / f"{segment.rank:02d}.mp4"
         segment_record = {
             "rank": segment.rank,
             "headline": segment.headline,
             "image_path": None,
             "clip_path": None,
+            "edited_clip_path": None,
             "image_status": "pending",
             "video_status": "pending",
+            "subtitle_status": "pending",
         }
 
         try:
@@ -138,6 +142,7 @@ def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path],
 
         if not video_base_url:
             segment_record["video_status"] = "skipped: VIDEO_API_BASE_URL not set"
+            segment_record["subtitle_status"] = "skipped"
             manifest_segments.append(segment_record)
             continue
 
@@ -152,11 +157,28 @@ def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path],
                 height=video_height,
                 width=video_width,
             )
-            clips.append(generated_clip)
             segment_record["clip_path"] = str(generated_clip)
             segment_record["video_status"] = "ok"
         except Exception as exc:
             segment_record["video_status"] = f"failed: {exc}"
+            segment_record["subtitle_status"] = "skipped"
+            manifest_segments.append(segment_record)
+            continue
+
+        try:
+            edited_clip = burn_subtitles(
+                input_clip=clip_path,
+                output_path=edited_clip_path,
+                headline=segment.headline,
+                subtitle=segment.on_screen_text or segment.narration,
+                width=video_width,
+                height=video_height,
+            )
+            clips.append(edited_clip)
+            segment_record["edited_clip_path"] = str(edited_clip)
+            segment_record["subtitle_status"] = "ok"
+        except Exception as exc:
+            segment_record["subtitle_status"] = f"failed: {exc}"
 
         manifest_segments.append(segment_record)
 
@@ -191,7 +213,23 @@ def run_pipeline() -> Path:
     final_video_status = "skipped"
     if clips:
         try:
-            final_video_path = assemble_clips_ffmpeg(clips, outputs_dir / "final_video.mp4")
+            intro_clip = create_title_card(
+                output_path=outputs_dir / "intro.mp4",
+                title=package.video_title,
+                subtitle=package.video_hook or "Global big events in one quick briefing",
+                width=video_width,
+                height=video_height,
+            )
+            outro_clip = create_title_card(
+                output_path=outputs_dir / "outro.mp4",
+                title="Follow for more global updates",
+                subtitle="Like, save, and follow for the next briefing",
+                width=video_width,
+                height=video_height,
+                duration_seconds=2.0,
+            )
+            assembly_inputs = [intro_clip, *clips, outro_clip]
+            final_video_path = assemble_clips_ffmpeg(assembly_inputs, outputs_dir / "final_video.mp4")
             final_video_status = "ok"
         except Exception as exc:
             final_video_status = f"failed: {exc}"
