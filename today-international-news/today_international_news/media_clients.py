@@ -15,13 +15,19 @@ def _preview(value: Any, limit: int = 500) -> str:
     return text[:limit]
 
 
-def _post_event(base_url: str, endpoint: str, data: list[Any]) -> str:
+def _post_event(base_url: str, endpoint: str, data: list[Any], debug: bool = False) -> str:
+    url = f"{base_url}/gradio_api/call/{endpoint}"
+    if debug:
+        print(f"{endpoint} POST URL: {url}")
+        print(f"{endpoint} POST payload preview: {_preview({'data': data}, limit=1200)}")
     response = requests.post(
-        f"{base_url}/gradio_api/call/{endpoint}",
+        url,
         json={"data": data},
         timeout=60,
     )
     response.raise_for_status()
+    if debug:
+        print(f"{endpoint} POST response preview: {_preview(response.text, limit=1200)}")
     payload = response.json()
     event_id = payload.get("event_id")
     if not event_id:
@@ -29,13 +35,16 @@ def _post_event(base_url: str, endpoint: str, data: list[Any]) -> str:
     return event_id
 
 
-def _wait_for_event(base_url: str, endpoint: str, event_id: str, timeout: int = 600) -> Any:
+def _wait_for_event(base_url: str, endpoint: str, event_id: str, timeout: int = 600, debug: bool = False) -> Any:
     started_at = time.monotonic()
     last_data: Any = None
     raw_lines: list[str] = []
     heartbeat_every_seconds = 30
     read_timeout_seconds = 45
     next_heartbeat_at = started_at + heartbeat_every_seconds
+    poll_url = f"{base_url}/gradio_api/call/{endpoint}/{event_id}"
+    if debug:
+        print(f"{endpoint} poll URL: {poll_url}")
 
     while time.monotonic() - started_at < timeout and last_data is None:
         elapsed = int(time.monotonic() - started_at)
@@ -45,7 +54,7 @@ def _wait_for_event(base_url: str, endpoint: str, event_id: str, timeout: int = 
         )
         try:
             with requests.get(
-                f"{base_url}/gradio_api/call/{endpoint}/{event_id}",
+                poll_url,
                 stream=True,
                 timeout=(30, read_timeout_seconds),
             ) as response:
@@ -60,6 +69,8 @@ def _wait_for_event(base_url: str, endpoint: str, event_id: str, timeout: int = 
                     if line is None:
                         continue
                     raw_lines.append(line)
+                    if debug and line:
+                        print(f"{endpoint} stream line: {_preview(line, limit=500)}")
                     if time.monotonic() >= next_heartbeat_at:
                         elapsed = int(time.monotonic() - started_at)
                         print(
@@ -104,12 +115,14 @@ def _wait_for_event(base_url: str, endpoint: str, event_id: str, timeout: int = 
     if last_data is None:
         try:
             fallback_response = requests.get(
-                f"{base_url}/gradio_api/call/{endpoint}/{event_id}",
+                poll_url,
                 timeout=120,
             )
             fallback_response.raise_for_status()
             fallback_text = fallback_response.text.strip()
             if fallback_text:
+                if debug:
+                    print(f"{endpoint} fallback response preview: {_preview(fallback_text, limit=1200)}")
                 raw_lines.append(fallback_text)
                 try:
                     last_data = fallback_response.json()
@@ -124,6 +137,8 @@ def _wait_for_event(base_url: str, endpoint: str, event_id: str, timeout: int = 
     if last_data is None:
         preview = _preview("\n".join(raw_lines) if raw_lines else "")
         raise ValueError(f"No result returned for endpoint {endpoint}. Stream preview: {preview}")
+    if debug:
+        print(f"{endpoint} final parsed result preview: {_preview(last_data, limit=1200)}")
     return last_data
 
 
@@ -289,8 +304,15 @@ def generate_video(
             fps,
             display_result,
         ],
+        debug=True,
     )
-    result = _wait_for_event(base_url, "generate_video", event_id, timeout=event_timeout_seconds)
+    result = _wait_for_event(
+        base_url,
+        "generate_video",
+        event_id,
+        timeout=event_timeout_seconds,
+        debug=True,
+    )
     if not isinstance(result, list) or not result:
         raise ValueError("Video generation returned an unexpected payload")
     video_ref = result[0] if len(result) > 0 else None
