@@ -1,62 +1,51 @@
-# 全球动荡：中东冲突与大国地缘博弈的连环冲击
+# 全球巨震：中东战火蔓延，地缘格局大重组
 
 ## Hook
-全球能源危机、大国博弈加速、地缘版图重绘。这不仅仅是中东的局部冲突，一场深远的全球地震正在发生。
+中东局势全面升级，全球经济与地缘政治正在经历几十年来最剧烈的动荡。从霍尔木兹海峡的封锁到北极军事竞赛，世界究竟怎么了？
 
 ## Global Outlook
-从霍尔木兹海峡的封锁到拉美政局的剧变，世界正在进入一个高度不确定和深度关联的对抗新周期。
+当前冲突已不再局限于局部战场，伊朗领导层的更迭与对战略通道的控制，正引发全球能源供应危机。与此同时，西方大国的介入与全球贸易政策的转向，预示着一个更加动荡且碎片化的新世界秩序正在形成。
 
 ## Segment 1
-Headline: 伊朗最高领袖强硬表态：战事升级
-Source: AP News
-Link: https://news.google.com/rss/articles/CBMioAFBVV95cUxOT3UyV1FyQ2VRM3VLV2JXaUhzNWpzYUUyYnotbnkybzc2X1Jaakh4ZlRwcE1QaFkwUU94YTN0RVBnVEV1amRPYzd4WFdiczNwTWhtTVZHYXU3NlY3YllCMG9hRkdDUFp0bEdJNnZBX1hXUi1QY1ZoNmNZUGVyTW9rNDQ0ZHNKcHZ0Y2R1OWtheFhkQVVKVWlpU0Z4enFpRVZ1?oc=5
-Why It Matters: 明确了伊朗在冲突中的对抗立场，直接威胁全球航运安全。
-Narration: 伊朗最高领袖誓言战斗到底，并威胁切断霍尔木兹海峡。中东局势已由局部冲突升级为持久的战线对抗。
-On Screen Text: 伊朗强硬立场：对抗升级
-Image Prompt: Close-up cinematic portrait of the Iranian leader at a wooden podium, dramatic rim lighting, soft focus background with blurred flags, news photography style.
-Video Prompt: Slow zoom into a glowing, 3D holographic digital map of the Strait of Hormuz, with red pulse lines indicating blockade zones, dark tech aesthetic.
+Headline: 伊朗新领导层强硬发声，冲突升级
+Source: The Guardian
+Link: https://news.google.com/rss/articles/CBMiuwFBVV95cUxQT0QzM3VUcHBkVE1JdkNPZXRQcEJySDVKQnN3WlpEMDJlY2NKb21Pc29pelpfZFRQZU56MkNTQjduY0FqTlJqY1pHRl9FMnoxc09nRDRKVFFRam5objdtd2RGZk5XMWJVYloweXdzXzRGa2ZYSGJqTW5tc0lPbzBHWkh5dWcxZ1BsZEVGSXhBOG02ZGdPc01QZnZDRmRHUXk0REprdjU5bTd6U2tvZS0yWFFRTGE1SVd0QkJr?oc=5
+Why It Matters: 明确了伊朗在关键冲突阶段的权力交接与强硬立场。
+Narration: 伊朗迎来权力更迭，Mojtaba Khamenei继位，明确表示将继续战斗，局势升级一触即发。
+On Screen Text: 伊朗领导层更迭，誓言继续作战
+Image Prompt: Cinematic medium close-up, dramatic side-lighting on a silhouette of an Iranian official, background blurred with glowing orange map of the Middle East, high contrast, 8k resolution.
+Video Prompt: Slow, steady camera push towards a modern digital map of the Middle East, fading into a sharp, solemn portrait of a stern official in dark attire.
 Duration Seconds: 4.0
 
 ## Segment 2
-Headline: 能源市场面临史无前例的破坏
-Source: The New York Times
-Link: https://news.google.com/rss/articles/CBMifkFVX3lxTE15aWl0eWVmWEtMdTIyVHZDMXFIc3RhN0FCcmYxTWIwd05TN3h3R3JKZm1MbXF0REhRekRETUJIektndEhnZm1mcDdpNW92RWs4d1FjWTN4c0x5M05wRFc3RU4tU29La21xdGlQZmdMVmFjVkFia3Z4OElsbWdQQQ?oc=5
-Why It Matters: 能源供应受阻已上升为全球宏观经济的重大危机。
-Narration: 国际能源署警告，这是历史上规模最大的石油供应中断，全球能源供应链正处于崩塌边缘。
-On Screen Text: 能源危机：全球供应中断
-Image Prompt: Aerial high-angle shot of a massive oil tanker silhouetted against a deep orange sunset, dark moody sea, cinematic color grading, hyper-realistic.
-Video Prompt: Time-lapse footage of a bustling crude oil refinery at night, industrial pipes glowing, heavy fog, fluid camera motion focusing on smoke stacks.
-Duration Seconds: 4.0
+Headline: 全球能源危机：霍尔木兹海峡受控
+Source: Reuters / NYT
+Link: https://news.google.com/rss/articles/CBMitAFBVV95cUxNYzJxMEE4QlJGUTZsb2g5U3VCNzRULXljMjc2allqX1I2RWRBQjhsWVFfa1NONmJhdVlHeHgzU2FySEtLLUcxZl9BWVo3YWZEX1FQcXhHVmFkeWdrVDhtLW1LX0xGb05VM0FOdEFPcHhOV2pqWUJJc2NCanNoRXBLdWNuUmw4Szhob2N0SzlsdURQVmNuYTdvNW5Ha3NkT2ZPUkJjUGs3Qkprb3pkYlhuMXoyN2I?oc=5
+Why It Matters: 能源命脉受限导致全球经济面临前所未有的供应链冲击。
+Narration: 史上最大规模的石油干扰发生，霍尔木兹海峡交通受限，全球能源供应陷入瘫痪，油价波动剧烈。
+On Screen Text: 全球石油受阻，能源市场恐慌
+Image Prompt: Wide angle, sunset over a congested sea lane with massive oil tankers idling, reflections on deep blue water, minimalist infographic style overlays.
+Video Prompt: Cinematic drone tracking shot flying low over heavy cargo ship decks, transitioning to a digital data interface showing surging oil price indices.
+Duration Seconds: 5.0
 
 ## Segment 3
-Headline: 俄罗斯的‘隐秘之手’：代理人战争阴影
-Source: Bloomberg
-Link: https://news.google.com/rss/articles/CBMiswFBVV95cUxONzZfeHAxM19LVDVfWVl3SGlsdzJaTXpKUkdPTlhWRTc2a0FhaHpVbm5ranBUbzcxUFZsZTlLdUZYSS1iQWhVaXB2eWZhTS1qbVdqZlFyakh2MVNfUzhuX2dVR1lGZmRkOGREQ1hQRk1ZdnhxLWd3eUI3bFpfd3dRSlRCTU1pRHlqUDJ2aGs2OU5DUUY2WnR2QlV1bnIzV0thWThHZFEtSEVNWk1QMWUtUW1EYw?oc=5
-Why It Matters: 冲突正演变成大国间接博弈的代理人战场。
-Narration: 最新情报显示，普京的策略正深度渗透中东战场，地缘冲突正迅速演变为大国间的隐形博弈。
-On Screen Text: 代理人博弈：大国介入
-Image Prompt: Conceptual shot: shadows of two world leaders on a wall, a chess board between them with a burning knight piece, cinematic chiaroscuro lighting.
-Video Prompt: Animated transition showing gold and black lines connecting major geopolitical hubs across a stylized globe, seamless digital interface style.
+Headline: 战火外溢，国际博弈白热化
+Source: politico.eu
+Link: https://news.google.com/rss/articles/CBMiqwFBVV95cUxQNHAyZ3djZTM2T0lFU2pnSGFEdnZEbXhMMjRMakZhWDdFYXI0NVAtYnZaRExEdHBtYUNWR0syejZoQ2ZWaS11WElmeHNldzNzTTNfMnZ2dkxaZTJYbXR5VzFzX2RzdHBEV3htbU55MkxpbzBwRGFFYTdFUUlqdXFpZHBncGFlVWprUVEtVkpua3V1YVBseDhrWE5JQTVSdEFCMC1xcDdBdjg0TXc?oc=5
+Why It Matters: 冲突已从区域化转向国际化，引发大国直接对抗风险。
+Narration: 冲突波及多国，法国在伊拉克遇袭，国际干预力量陷入泥潭，全球安全纽带岌岌可危。
+On Screen Text: 多国部队遇袭，冲突激化扩散
+Image Prompt: A desaturated, gritty cinematic shot of a military outpost in the desert at dusk, smoke rising in the distance, tactical equipment in the foreground.
+Video Prompt: Handheld-style camera movement panning across field communication gear, interspersed with quick, blurry flashes of light and tactical smoke.
 Duration Seconds: 4.0
 
 ## Segment 4
-Headline: 美国贸易新政：重拳瞄准全球供应链
-Source: The New York Times
-Link: https://news.google.com/rss/articles/CBMihAFBVV95cUxPR3dRSGVCcmpRY0RjRUNGbzhvU3dmeVhjRmF4TDFnNTc1Z1Jsc19aSHVrWHNkV1RoYk9fdXhLLW9HRWVTREVRNzFFNmlJWERXSjdlTzhfX3VidTI1b3FNMW5Cdkx5bGl1ek5DT19lVDNZOTN1dVBERlFJb2ZJMDMzZkNkeEo?oc=5
-Why It Matters: 美国的关税政策将引发全球贸易保护主义的混乱。
-Narration: 美国计划加征新关税，贸易保护风暴席卷而来，供应链的全球重构已成定局。
-On Screen Text: 贸易新规：全球供应链重组
-Image Prompt: Macro shot of a heavy-duty industrial customs stamp pressing down on official manifest documents, steel blue color palette.
-Video Prompt: Cinematic shot of container ships being offloaded at a harbor at dusk, cold blue lighting, tracking a crane lifting a cargo crate.
-Duration Seconds: 4.0
-
-## Segment 5
-Headline: 智利政坛右转：南美地缘格局重塑
-Source: France 24
-Link: https://news.google.com/rss/articles/CBMiyAFBVV95cUxPRWstU3J0amdTNzFFRElRVW82cXU1OURpbTdfclRIQWNqZzN4SjhMX0g0QmFDQUxiVHlOWHRyUnV4UGtzQW5zdExHYVlNSEVqNDJjcTNReW5QVEpBaGlYTnRCRFMwYndyLXVZVFFQRWJpS1U4NmJoQXZLR2VUUmM3RVplZTVoWmJjLTBSdENjM0ljYmtUaFJzdTQ5TWV3ZHFxbnFQak9RNV9DRy1ZLVdUWlFQMVBJTE1HYm01WGZPQVpvdVVFejBVRw?oc=5
-Why It Matters: 反映了全球范围内政治右倾化的普遍趋势。
-Narration: 在南美，智利政坛迎来强烈右转，预示着该地区将发生深刻的意识形态变革，地缘连锁反应不可避免。
-On Screen Text: 智利大选：南美政治右转
-Image Prompt: Crowded political plaza in Santiago, bright daylight, candid photojournalism, expressive faces of protesters, high-definition photography.
-Video Prompt: Rapid cuts between news tickers and vibrant protest footage, transitioning into a map showing South America highlighted in sharp red.
-Duration Seconds: 3.0
+Headline: 全球防务大转向：从北极到贸易战
+Source: Financial Times / NPR
+Link: https://news.google.com/rss/articles/CBMicEFVX3lxTFBaWXZISHRPN21ubW5JaDRxOWNvMXcxRWluVkR5ZUM2OFpHT090M2NrZkRVMVNHR29neXU4NDhiaEd5U1NBU1dTMzQxTUE2Nl9ObXdHRHhlX2lFYmZfb3d2U0VuSWdYUkVubDgwSl9DYXU?oc=5
+Why It Matters: 地缘动荡引发防御心态，北极军事化与贸易保护成为新常态。
+Narration: 全球防务心态重塑，北极军备竞赛升级，配合严厉的贸易保护政策，世界进入割裂发展新时期。
+On Screen Text: 北极军备扩张，全球贸易割裂
+Image Prompt: Cold blue-toned Arctic landscape with a futuristic radar base, juxtaposed with a chaotic industrial shipping port lit by harsh floodlights.
+Video Prompt: Macro shot of snow falling on a metallic surface, quick-cut to a time-lapse of a massive industrial port with thousands of shipping containers.
+Duration Seconds: 5.0
