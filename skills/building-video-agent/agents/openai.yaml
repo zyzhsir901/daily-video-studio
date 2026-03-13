@@ -1,0 +1,4 @@
+interface:
+  display_name: "Building Video Agent"
+  short_description: "Scaffold and maintain a daily AI building video pipeline"
+  default_prompt: "Set up or update a daily building-process video generator with Gemini planning, optional image and video APIs, and GitHub Actions publishing."
