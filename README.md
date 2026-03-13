@@ -66,11 +66,20 @@ Optional:
 - `PIPELINE_MAX_NEWS=8`
 - `IMAGE_API_BASE_URL=https://tongyi-mai-z-image-turbo.hf.space`
 - `IMAGE_RATIO=1024x1024 ( 1:1 )`
-- `VIDEO_API_BASE_URL=https://zerocollabs-ltx-2-3-turbo.hf.space`
+- `VIDEO_API_BASE_URL=https://r3gm-wan2-2-fp8da-aoti-preview.hf.space`
 - `VIDEO_HIGH_RES=false`
 - `VIDEO_DURATION_SECONDS=3.0`
 - `VIDEO_HEIGHT=768`
 - `VIDEO_WIDTH=512`
+- `VIDEO_INFERENCE_STEPS=1`
+- `VIDEO_NEGATIVE_PROMPT=`
+- `VIDEO_GUIDANCE_HIGH=0`
+- `VIDEO_GUIDANCE_LOW=0`
+- `VIDEO_QUALITY=1`
+- `VIDEO_SCHEDULER=FlowMatchEulerDiscrete`
+- `VIDEO_FLOW_SHIFT=0.5`
+- `VIDEO_FPS=16`
+- `VIDEO_DISPLAY_RESULT=true`
 
 ## GitHub Actions
 
@@ -87,10 +96,19 @@ Repository secrets to configure:
 - `VIDEO_DURATION_SECONDS` optional
 - `VIDEO_HEIGHT` optional
 - `VIDEO_WIDTH` optional
+- `VIDEO_INFERENCE_STEPS` optional
+- `VIDEO_NEGATIVE_PROMPT` optional
+- `VIDEO_GUIDANCE_HIGH` optional
+- `VIDEO_GUIDANCE_LOW` optional
+- `VIDEO_QUALITY` optional
+- `VIDEO_SCHEDULER` optional
+- `VIDEO_FLOW_SHIFT` optional
+- `VIDEO_FPS` optional
+- `VIDEO_DISPLAY_RESULT` optional
 
 Important:
 
 - The image API is public by default in this project.
-- The default video API now points to the public `ZeroCollabs/LTX-2.3-turbo` Hugging Face Space.
+- The default video API now points to the public `r3gm-wan2-2-fp8da-aoti-preview` Hugging Face Space.
 - Before each run, the pipeline clears the previous generated content under `today-international-news/runs/` and then commits the new images, clips, manifests, and final video back to GitHub.
 - The workflow code now lives under `today-international-news/today_international_news/`.

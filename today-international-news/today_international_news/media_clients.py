@@ -250,7 +250,15 @@ def generate_video(
     enhance_prompt: bool = False,
     height: int = 768,
     width: int = 512,
-    generation_mode: str = "Image-to-Video",
+    inference_steps: int = 1,
+    negative_prompt: str = "",
+    guidance_scale_high: float = 0.0,
+    guidance_scale_low: float = 0.0,
+    video_quality: int = 1,
+    scheduler: str = "FlowMatchEulerDiscrete",
+    flow_shift: float = 0.5,
+    fps: str = "16",
+    display_result: bool = True,
 ) -> Path:
     event_id = _post_event(
         base_url,
@@ -259,19 +267,23 @@ def generate_video(
             {"path": str(image_path), "meta": {"_type": "gradio.FileData"}},
             {"path": str(image_path), "meta": {"_type": "gradio.FileData"}},
             prompt,
+            inference_steps,
+            negative_prompt,
             duration_seconds,
-            generation_mode,
-            enhance_prompt,
+            guidance_scale_high,
+            guidance_scale_low,
             seed,
             randomize_seed,
-            height,
-            width,
-            None,
+            video_quality,
+            scheduler,
+            flow_shift,
+            fps,
+            display_result,
         ],
     )
     result = _wait_for_event(base_url, "generate_video", event_id, timeout=1800)
     if not isinstance(result, list) or not result:
         raise ValueError("Video generation returned an unexpected payload")
-    video_ref = result[0]
+    video_ref = result[0] if len(result) > 0 else None
     print(f"Video API result preview: {_preview(video_ref)}")
     return _save_artifact(base_url, video_ref, output_path)

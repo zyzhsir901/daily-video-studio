@@ -49,6 +49,15 @@ jobs:
           VIDEO_DURATION_SECONDS: ${{ secrets.VIDEO_DURATION_SECONDS }}
           VIDEO_HEIGHT: ${{ secrets.VIDEO_HEIGHT }}
           VIDEO_WIDTH: ${{ secrets.VIDEO_WIDTH }}
+          VIDEO_INFERENCE_STEPS: ${{ secrets.VIDEO_INFERENCE_STEPS }}
+          VIDEO_NEGATIVE_PROMPT: ${{ secrets.VIDEO_NEGATIVE_PROMPT }}
+          VIDEO_GUIDANCE_HIGH: ${{ secrets.VIDEO_GUIDANCE_HIGH }}
+          VIDEO_GUIDANCE_LOW: ${{ secrets.VIDEO_GUIDANCE_LOW }}
+          VIDEO_QUALITY: ${{ secrets.VIDEO_QUALITY }}
+          VIDEO_SCHEDULER: ${{ secrets.VIDEO_SCHEDULER }}
+          VIDEO_FLOW_SHIFT: ${{ secrets.VIDEO_FLOW_SHIFT }}
+          VIDEO_FPS: ${{ secrets.VIDEO_FPS }}
+          VIDEO_DISPLAY_RESULT: ${{ secrets.VIDEO_DISPLAY_RESULT }}
           PIPELINE_MAX_NEWS: 8
           PYTHONPATH: today-international-news
         run: python -m today_international_news.main
