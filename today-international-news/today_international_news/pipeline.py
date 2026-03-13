@@ -194,7 +194,6 @@ def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path],
                 generation_mode=os.getenv("VIDEO_GENERATION_MODE") or "Image-to-Video",
                 camera_lora=os.getenv("VIDEO_CAMERA_LORA") or "No LoRA",
                 enhance_prompt=(os.getenv("VIDEO_ENHANCE_PROMPT") or "true").lower() == "true",
-                display_result=(os.getenv("VIDEO_DISPLAY_RESULT") or "true").lower() == "true",
                 event_timeout_seconds=video_event_timeout_seconds,
                 input_image_reference=image_source,
             )

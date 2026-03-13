@@ -54,7 +54,6 @@ jobs:
           VIDEO_GENERATION_MODE: ${{ secrets.VIDEO_GENERATION_MODE }}
           VIDEO_CAMERA_LORA: ${{ secrets.VIDEO_CAMERA_LORA }}
           VIDEO_ENHANCE_PROMPT: ${{ secrets.VIDEO_ENHANCE_PROMPT }}
-          VIDEO_DISPLAY_RESULT: ${{ secrets.VIDEO_DISPLAY_RESULT }}
           VIDEO_EVENT_TIMEOUT_SECONDS: ${{ secrets.VIDEO_EVENT_TIMEOUT_SECONDS }}
           PIPELINE_MAX_NEWS: 8
           PYTHONPATH: today-international-news

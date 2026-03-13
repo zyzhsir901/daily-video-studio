@@ -299,7 +299,6 @@ def generate_video(
     negative_prompt: str = "",
     generation_mode: str = "Image-to-Video",
     camera_lora: str = "No LoRA",
-    display_result: bool = True,
     event_timeout_seconds: int = 120,
     input_image_reference: str | None = None,
 ) -> Path:
@@ -317,7 +316,6 @@ def generate_video(
     print(f"  height: {height}")
     print(f"  width: {width}")
     print(f"  camera_lora: {camera_lora}")
-    print(f"  display_result: {display_result}")
     print(f"  event_timeout_seconds: {event_timeout_seconds}")
     event_id = _post_event(
         base_url,
@@ -336,7 +334,6 @@ def generate_video(
             width,
             camera_lora,
             None,
-            display_result,
         ],
         debug=True,
     )

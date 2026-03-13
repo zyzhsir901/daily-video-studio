@@ -76,7 +76,6 @@ Optional:
 - `VIDEO_GENERATION_MODE=Image-to-Video`
 - `VIDEO_CAMERA_LORA=No LoRA`
 - `VIDEO_ENHANCE_PROMPT=true`
-- `VIDEO_DISPLAY_RESULT=true`
 - `VIDEO_EVENT_TIMEOUT_SECONDS=120`
 
 ## GitHub Actions
@@ -99,7 +98,6 @@ Repository secrets to configure:
 - `VIDEO_GENERATION_MODE` optional
 - `VIDEO_CAMERA_LORA` optional
 - `VIDEO_ENHANCE_PROMPT` optional
-- `VIDEO_DISPLAY_RESULT` optional
 - `VIDEO_EVENT_TIMEOUT_SECONDS` optional
 
 Important:
