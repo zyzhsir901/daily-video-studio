@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 
 from crewai import Agent, Crew, Process, Task
@@ -6,11 +8,11 @@ from crewai.project import CrewBase, agent, crew, task
 
 @CrewBase
 class TodayInternationalNewsCrew:
-    """CrewAI definition for generating a daily international news report."""
+    """CrewAI definition for short-form international news video planning."""
 
     agents_config = "config/agents.yaml"
     tasks_config = "config/tasks.yaml"
-    model_name = os.getenv("OPENAI_MODEL_NAME", "gpt-4o-mini")
+    model_name = os.getenv("OPENAI_MODEL_NAME") or "gpt-4o-mini"
 
     @agent
     def news_editor(self) -> Agent:
@@ -21,23 +23,58 @@ class TodayInternationalNewsCrew:
         )
 
     @agent
-    def quality_reviewer(self) -> Agent:
+    def script_producer(self) -> Agent:
         return Agent(
-            config=self.agents_config["quality_reviewer"],
+            config=self.agents_config["script_producer"],
+            llm=self.model_name,
+            verbose=True,
+        )
+
+    @agent
+    def visual_director(self) -> Agent:
+        return Agent(
+            config=self.agents_config["visual_director"],
+            llm=self.model_name,
+            verbose=True,
+        )
+
+    @agent
+    def quality_editor(self) -> Agent:
+        return Agent(
+            config=self.agents_config["quality_editor"],
             llm=self.model_name,
             verbose=True,
         )
 
     @task
-    def select_and_summarize_news(self) -> Task:
+    def select_news(self) -> Task:
         return Task(
-            config=self.tasks_config["select_and_summarize_news"],
+            config=self.tasks_config["select_news"],
+            agent=self.news_editor(),
         )
 
     @task
-    def review_report(self) -> Task:
+    def create_video_package(self) -> Task:
         return Task(
-            config=self.tasks_config["review_report"],
+            config=self.tasks_config["create_video_package"],
+            agent=self.script_producer(),
+            context=[self.select_news()],
+        )
+
+    @task
+    def visual_polish_package(self) -> Task:
+        return Task(
+            config=self.tasks_config["visual_polish_package"],
+            agent=self.visual_director(),
+            context=[self.create_video_package()],
+        )
+
+    @task
+    def review_video_package(self) -> Task:
+        return Task(
+            config=self.tasks_config["review_video_package"],
+            agent=self.quality_editor(),
+            context=[self.visual_polish_package()],
         )
 
     @crew

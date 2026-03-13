@@ -1,29 +1,92 @@
-select_and_summarize_news:
+select_news:
   description: |
-    今天的日期是 {report_date}。
+    Today is {report_date}.
 
-    请阅读下面整理好的国际新闻候选条目，筛选出 5 到 8 条最重要的事件，并输出中文日报初稿。
+    Review the candidate world news feed below and select the highest-signal stories.
 
-    候选新闻：
+    Candidate stories:
     {news_digest}
 
-    要求：
-    1. 优先选择真正具有国际影响力的事件，避免同质化条目。
-    2. 每条新闻包含：标题、2 到 3 句摘要、影响点。
-    3. 最后补一段“今日观察”，总结当天国际局势主线。
-    4. 如果信息不足，明确写出“依据标题与导语推断”。
-    5. 输出为 Markdown。
-  expected_output: "一份结构完整的中文国际新闻日报 Markdown 初稿。"
+    Requirements:
+    - Select exactly {max_news} stories unless the feed clearly has fewer meaningful items.
+    - Prioritize geopolitical, military, diplomatic, macroeconomic, energy, and humanitarian impact.
+    - Avoid duplicate angles about the same event unless they are meaningfully different.
+    - Return JSON only.
+
+    Output schema:
+    {
+      "selection_rationale": "string",
+      "selected_stories": [
+        {
+          "rank": 1,
+          "headline": "string",
+          "source": "string",
+          "source_link": "string",
+          "why_selected": "string"
+        }
+      ]
+    }
+  expected_output: "A valid JSON object with the selected top stories."
   agent: news_editor
 
-review_report:
+create_video_package:
   description: |
-    请审校这份国际新闻日报，确保：
-    1. 结构统一，标题清晰。
-    2. 避免绝对化和夸张表达。
-    3. 明确区分事实与推断。
-    4. 保持中文自然、简洁、适合作为日报发布。
-    5. 保留 Markdown 格式。
-  expected_output: "经过审校、可以直接保存发布的 Markdown 国际新闻日报。"
-  agent: quality_reviewer
+    Build a structured short-video package from the selected stories provided in context.
 
+    Hard requirements:
+    - Output must target a Chinese-speaking audience.
+    - The whole package should feel like one coherent "global big events" video.
+    - Do not invent facts beyond the selected story context.
+    - Keep it concise and suitable for a short video.
+    - Return JSON only.
+
+    Output schema:
+    {
+      "video_title": "string",
+      "video_hook": "string",
+      "global_outlook": "string",
+      "segments": [
+        {
+          "rank": 1,
+          "headline": "string",
+          "source": "string",
+          "source_link": "string",
+          "why_it_matters": "string",
+          "narration": "string",
+          "on_screen_text": "string",
+          "image_prompt": "string in English",
+          "video_prompt": "string in English",
+          "duration_seconds": 3.0
+        }
+      ]
+    }
+  expected_output: "A valid JSON object for the short-video package."
+  agent: script_producer
+
+visual_polish_package:
+  description: |
+    Review the structured short-video package in context and improve only the visual production fields.
+
+    Requirements:
+    - Keep valid JSON only.
+    - Keep the same schema.
+    - Keep all factual fields aligned with the existing package.
+    - Improve visual distinctiveness across segments.
+    - Ensure image prompts and video prompts are realistic, cinematic, and safe for news production.
+    - Do not add unsupported factual claims.
+  expected_output: "A valid JSON object with production-ready image and motion prompts."
+  agent: visual_director
+
+review_video_package:
+  description: |
+    Review the generated JSON video package in context.
+
+    Requirements:
+    - Keep valid JSON only.
+    - Keep the same schema.
+    - Ensure there are no more than {max_news} segments.
+    - Ensure each segment is visually distinct.
+    - Ensure the Chinese narration is concise and natural.
+    - Ensure the package reads like a standard production handoff for image and video generation.
+  expected_output: "A final valid JSON object ready for production."
+  agent: quality_editor
