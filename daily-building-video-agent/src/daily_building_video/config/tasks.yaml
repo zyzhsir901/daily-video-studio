@@ -1,0 +1,94 @@
+define_build_concept:
+  description: |
+    Today is {report_date}. Seed is {seed}.
+
+    You are creating a short vertical AI video about one building being constructed from start to finish.
+
+    Input concept:
+    - Building type: {building_type}
+    - Location style: {location_style}
+    - Visual style: {visual_style}
+    - Tone: {tone}
+    - Stage sequence: {stage_sequence}
+    - Segment count: {segment_count}
+    - Target total duration: {target_duration_seconds} seconds
+
+    Requirements:
+    - Keep the concept coherent as one single project, not multiple buildings.
+    - The final output should feel similar to an AI-generated building progress montage.
+    - Emphasize continuity across segments.
+    - Return JSON only.
+
+    Output schema:
+    {
+      "creative_summary": "string",
+      "continuity_rules": ["string"],
+      "audience_hook_angle": "string"
+    }
+  expected_output: "A valid JSON object with the daily build concept framing."
+  agent: trend_planner
+
+create_storyboard_package:
+  description: |
+    Using the provided concept and the prior task context, build a production-ready short-video package.
+
+    Hard requirements:
+    - Output must target a Chinese-speaking audience.
+    - Output valid JSON only.
+    - Build exactly {segment_count} segments.
+    - Each segment must map to one construction stage from the stage sequence.
+    - Maintain the same building identity across all shots.
+    - Keep narration concise and natural for short-video voiceover.
+    - Image prompts and video prompts must be in English.
+    - The result must be suitable for image generation followed by image-to-video generation.
+
+    Output schema:
+    {
+      "video_title": "string",
+      "video_hook": "string",
+      "creative_direction": "string",
+      "music_direction": "string",
+      "segments": [
+        {
+          "rank": 1,
+          "stage_name": "string",
+          "shot_goal": "string",
+          "narration": "string",
+          "on_screen_text": "string",
+          "image_prompt": "string in English",
+          "video_prompt": "string in English",
+          "duration_seconds": 3.2
+        }
+      ]
+    }
+  expected_output: "A valid JSON object for the building process video package."
+  agent: storyboard_designer
+
+polish_visual_prompts:
+  description: |
+    Review the current package in context and improve only the visual production quality.
+
+    Requirements:
+    - Keep valid JSON only.
+    - Keep the same schema.
+    - Do not change the overall building concept.
+    - Improve continuity cues between segments.
+    - Make each shot visually distinct but clearly part of one construction timeline.
+    - Keep prompts realistic and appropriate for AI image/video generation.
+  expected_output: "A valid JSON object with stronger image and motion prompts."
+  agent: visual_director
+
+review_package:
+  description: |
+    Review the final package in context.
+
+    Requirements:
+    - Keep valid JSON only.
+    - Keep the same schema.
+    - Ensure there are exactly {segment_count} segments.
+    - Ensure the pacing feels like a roughly 19-second vertical short video.
+    - Ensure the Chinese narration is concise.
+    - Ensure the visuals describe plausible construction progress.
+    - Remove repetition and weak shots.
+  expected_output: "A final valid JSON object ready for production."
+  agent: quality_producer
