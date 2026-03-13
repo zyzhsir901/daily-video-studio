@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 import shutil
+import time
 from typing import Any
 from urllib.parse import quote, urljoin, urlparse
 
@@ -29,28 +30,61 @@ def _post_event(base_url: str, endpoint: str, data: list[Any]) -> str:
 
 
 def _wait_for_event(base_url: str, endpoint: str, event_id: str, timeout: int = 600) -> Any:
-    response = requests.get(
-        f"{base_url}/gradio_api/call/{endpoint}/{event_id}",
-        stream=True,
-        timeout=timeout,
-    )
-    response.raise_for_status()
-
+    started_at = time.monotonic()
     last_data: Any = None
     raw_lines: list[str] = []
-    for line in response.iter_lines(decode_unicode=True):
-        if line is None:
-            continue
-        raw_lines.append(line)
-        if not line or not line.startswith("data:"):
-            continue
-        raw = line[5:].strip()
-        if not raw or raw == "null":
-            continue
+    heartbeat_every_seconds = 30
+    read_timeout_seconds = 45
+    next_heartbeat_at = started_at + heartbeat_every_seconds
+
+    while time.monotonic() - started_at < timeout and last_data is None:
+        elapsed = int(time.monotonic() - started_at)
+        print(
+            f"Polling {endpoint} event {event_id}... elapsed={elapsed}s",
+            flush=True,
+        )
         try:
-            last_data = json.loads(raw)
-        except json.JSONDecodeError:
-            last_data = raw
+            with requests.get(
+                f"{base_url}/gradio_api/call/{endpoint}/{event_id}",
+                stream=True,
+                timeout=(30, read_timeout_seconds),
+            ) as response:
+                response.raise_for_status()
+                for line in response.iter_lines(decode_unicode=True):
+                    if line is None:
+                        continue
+                    raw_lines.append(line)
+                    if time.monotonic() >= next_heartbeat_at:
+                        elapsed = int(time.monotonic() - started_at)
+                        print(
+                            f"Still waiting for {endpoint} event {event_id}... elapsed={elapsed}s",
+                            flush=True,
+                        )
+                        next_heartbeat_at = time.monotonic() + heartbeat_every_seconds
+                    if not line or not line.startswith("data:"):
+                        continue
+                    raw = line[5:].strip()
+                    if not raw or raw == "null":
+                        continue
+                    try:
+                        last_data = json.loads(raw)
+                    except json.JSONDecodeError:
+                        last_data = raw
+                    if last_data is not None:
+                        break
+        except requests.ReadTimeout:
+            elapsed = int(time.monotonic() - started_at)
+            print(
+                f"Read timeout while waiting for {endpoint} event {event_id}; retrying. elapsed={elapsed}s",
+                flush=True,
+            )
+        except requests.RequestException as exc:
+            elapsed = int(time.monotonic() - started_at)
+            print(
+                f"Transient error while waiting for {endpoint} event {event_id}: {exc}. elapsed={elapsed}s",
+                flush=True,
+            )
+            time.sleep(5)
 
     if last_data is None and raw_lines:
         joined = "\n".join(raw_lines)
