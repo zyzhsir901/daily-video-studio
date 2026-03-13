@@ -56,13 +56,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git fetch origin main
-          git rebase origin/main
           git add -A today-international-news/
           git diff --cached --quiet && exit 0
           git commit -m "Generate global news video package"
           for attempt in 1 2 3; do
-            git pull --rebase origin main
+            git pull --rebase --autostash origin main
             if git push origin HEAD:main; then
               exit 0
             fi
