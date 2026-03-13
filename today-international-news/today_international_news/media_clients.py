@@ -9,6 +9,11 @@ from urllib.parse import quote, urljoin, urlparse
 import requests
 
 
+def _preview(value: Any, limit: int = 500) -> str:
+    text = json.dumps(value, ensure_ascii=False) if not isinstance(value, str) else value
+    return text[:limit]
+
+
 def _post_event(base_url: str, endpoint: str, data: list[Any]) -> str:
     response = requests.post(
         f"{base_url}/gradio_api/call/{endpoint}",
@@ -72,11 +77,63 @@ def _artifact_url(base_url: str, reference: Any) -> str | None:
     return None
 
 
+def _artifact_candidates(reference: Any) -> list[str]:
+    candidates: list[str] = []
+
+    def visit(value: Any) -> None:
+        if value is None:
+            return
+        if isinstance(value, str):
+            stripped = value.strip()
+            if stripped:
+                candidates.append(stripped)
+            return
+        if isinstance(value, dict):
+            preferred_keys = (
+                "url",
+                "path",
+                "name",
+                "image",
+                "video",
+                "file",
+                "original",
+                "preview",
+            )
+            for key in preferred_keys:
+                if key in value:
+                    visit(value[key])
+            for nested_value in value.values():
+                visit(nested_value)
+            return
+        if isinstance(value, list):
+            for item in value:
+                visit(item)
+
+    visit(reference)
+
+    deduped: list[str] = []
+    seen: set[str] = set()
+    for candidate in candidates:
+        if candidate in seen:
+            continue
+        seen.add(candidate)
+        deduped.append(candidate)
+    return deduped
+
+
 def _save_artifact(base_url: str, reference: Any, output_path: Path) -> Path:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     source = _artifact_url(base_url, reference)
     if not source:
-        raise ValueError("Could not resolve artifact location from API response")
+        for candidate in _artifact_candidates(reference):
+            source = _artifact_url(base_url, candidate)
+            if source:
+                break
+    if not source:
+        raise ValueError(
+            "Could not resolve artifact location from API response. "
+            f"Response preview: {_preview(reference)}"
+        )
 
     parsed = urlparse(source)
     if parsed.scheme in {"http", "https"}:
@@ -111,6 +168,7 @@ def generate_image(
     if not isinstance(result, list) or not result:
         raise ValueError("Image generation returned an unexpected payload")
     gallery = result[0]
+    print(f"Image API result preview: {_preview(gallery)}")
     return _save_artifact(base_url, gallery, output_path)
 
 
@@ -149,4 +207,5 @@ def generate_video(
     if not isinstance(result, list) or not result:
         raise ValueError("Video generation returned an unexpected payload")
     video_ref = result[0]
+    print(f"Video API result preview: {_preview(video_ref)}")
     return _save_artifact(base_url, video_ref, output_path)
