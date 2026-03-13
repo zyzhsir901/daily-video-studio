@@ -159,4 +159,3 @@ def generate_video(
         raise ValueError("Video generation returned an unexpected payload")
     video_ref = result[0]
     return _save_artifact(base_url, video_ref, output_path)
-

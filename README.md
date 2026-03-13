@@ -46,7 +46,8 @@ Use Python 3.10 or newer.
 ```bash
 pip install -r requirements.txt
 copy .env.example .env
-python -m src.today_international_news.main
+set PYTHONPATH=today-international-news
+python -m today_international_news.main
 ```
 
 ## Environment
@@ -86,3 +87,4 @@ Important:
 - GitHub-hosted runners cannot reach `127.0.0.1` on your computer.
 - For full video generation on GitHub Actions, point `VIDEO_API_BASE_URL` to a reachable deployment or run the workflow on a self-hosted runner.
 - Before each run, the pipeline clears the previous generated content under `today-international-news/runs/` and then commits the new images, clips, manifests, and final video back to GitHub.
+- The workflow code now lives under `today-international-news/today_international_news/`.

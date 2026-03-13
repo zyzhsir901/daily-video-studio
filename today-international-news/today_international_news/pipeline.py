@@ -17,16 +17,16 @@ from .package_builder import build_video_package
 from .utils import ensure_dir, extract_json_object
 
 
-def _project_root() -> Path:
-    return Path(__file__).resolve().parents[2]
+def _content_root() -> Path:
+    return Path(__file__).resolve().parents[1]
 
 
 def _run_root(report_date: str) -> Path:
-    return _project_root() / "today-international-news" / "runs" / report_date
+    return _content_root() / "runs" / report_date
 
 
 def _runs_root() -> Path:
-    return _project_root() / "today-international-news" / "runs"
+    return _content_root() / "runs"
 
 
 def _require_env(name: str) -> str:

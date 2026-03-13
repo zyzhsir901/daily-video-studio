@@ -34,4 +34,3 @@ def build_video_package(payload: dict, max_news: int) -> VideoPackage:
         global_outlook=str(payload.get("global_outlook", "")).strip(),
         segments=segments,
     )
-

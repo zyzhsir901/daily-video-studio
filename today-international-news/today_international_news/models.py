@@ -46,4 +46,3 @@ class VideoPackage:
             "global_outlook": self.global_outlook,
             "segments": [segment.to_dict() for segment in self.segments],
         }
-

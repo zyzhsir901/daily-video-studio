@@ -43,7 +43,8 @@ jobs:
           VIDEO_HIGH_RES: ${{ secrets.VIDEO_HIGH_RES }}
           VIDEO_DURATION_SECONDS: ${{ secrets.VIDEO_DURATION_SECONDS }}
           PIPELINE_MAX_NEWS: 8
-        run: python -m src.today_international_news.main
+          PYTHONPATH: today-international-news
+        run: python -m today_international_news.main
 
       - name: Commit generated assets
         run: |

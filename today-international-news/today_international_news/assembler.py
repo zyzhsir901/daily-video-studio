@@ -31,4 +31,3 @@ def assemble_clips_ffmpeg(clips: list[Path], output_path: Path) -> Path:
     ]
     subprocess.run(command, check=True)
     return output_path
-

@@ -35,4 +35,3 @@ def extract_json_object(text: str) -> dict:
             continue
 
     raise ValueError("Could not extract a JSON object from model output")
-

@@ -97,4 +97,3 @@ def build_digest(items: list[NewsItem], max_items: int = 24) -> str:
         lines.append(f"   Link: {item.link}")
         lines.append("")
     return "\n".join(lines).strip()
-
