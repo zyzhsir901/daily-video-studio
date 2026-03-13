@@ -51,6 +51,12 @@ def _wait_for_event(base_url: str, endpoint: str, event_id: str, timeout: int = 
             ) as response:
                 response.raise_for_status()
                 for line in response.iter_lines(decode_unicode=True):
+                    if time.monotonic() - started_at >= timeout:
+                        preview = _preview("\n".join(raw_lines) if raw_lines else "")
+                        raise TimeoutError(
+                            f"Timed out waiting for {endpoint} event {event_id} after {timeout}s. "
+                            f"Stream preview: {preview}"
+                        )
                     if line is None:
                         continue
                     raw_lines.append(line)
@@ -78,6 +84,8 @@ def _wait_for_event(base_url: str, endpoint: str, event_id: str, timeout: int = 
                 f"Read timeout while waiting for {endpoint} event {event_id}; retrying. elapsed={elapsed}s",
                 flush=True,
             )
+        except TimeoutError:
+            raise
         except requests.RequestException as exc:
             elapsed = int(time.monotonic() - started_at)
             print(
