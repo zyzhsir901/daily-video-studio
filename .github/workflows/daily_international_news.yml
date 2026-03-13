@@ -42,6 +42,8 @@ jobs:
           VIDEO_API_BASE_URL: ${{ secrets.VIDEO_API_BASE_URL }}
           VIDEO_HIGH_RES: ${{ secrets.VIDEO_HIGH_RES }}
           VIDEO_DURATION_SECONDS: ${{ secrets.VIDEO_DURATION_SECONDS }}
+          VIDEO_HEIGHT: ${{ secrets.VIDEO_HEIGHT }}
+          VIDEO_WIDTH: ${{ secrets.VIDEO_WIDTH }}
           PIPELINE_MAX_NEWS: 8
           PYTHONPATH: today-international-news
         run: python -m today_international_news.main

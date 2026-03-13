@@ -62,9 +62,11 @@ Optional:
 - `PIPELINE_MAX_NEWS=8`
 - `IMAGE_API_BASE_URL=https://tongyi-mai-z-image-turbo.hf.space`
 - `IMAGE_RATIO=1024x1024 ( 1:1 )`
-- `VIDEO_API_BASE_URL=http://127.0.0.1:7860`
+- `VIDEO_API_BASE_URL=https://zerocollabs-ltx-2-3-turbo.hf.space`
 - `VIDEO_HIGH_RES=false`
 - `VIDEO_DURATION_SECONDS=3.0`
+- `VIDEO_HEIGHT=768`
+- `VIDEO_WIDTH=512`
 
 ## GitHub Actions
 
@@ -76,15 +78,15 @@ Repository secrets to configure:
 - `GEMINI_MODEL` optional
 - `IMAGE_API_BASE_URL` optional
 - `IMAGE_RATIO` optional
-- `VIDEO_API_BASE_URL` required for video generation
+- `VIDEO_API_BASE_URL` optional
 - `VIDEO_HIGH_RES` optional
 - `VIDEO_DURATION_SECONDS` optional
+- `VIDEO_HEIGHT` optional
+- `VIDEO_WIDTH` optional
 
 Important:
 
 - The image API is public by default in this project.
-- The provided video API URL in your request is local to the machine running the service.
-- GitHub-hosted runners cannot reach `127.0.0.1` on your computer.
-- For full video generation on GitHub Actions, point `VIDEO_API_BASE_URL` to a reachable deployment or run the workflow on a self-hosted runner.
+- The default video API now points to the public `ZeroCollabs/LTX-2.3-turbo` Hugging Face Space.
 - Before each run, the pipeline clears the previous generated content under `today-international-news/runs/` and then commits the new images, clips, manifests, and final video back to GitHub.
 - The workflow code now lives under `today-international-news/today_international_news/`.

@@ -98,9 +98,11 @@ def _generate_video_package(report_date: str, digest: str, max_news: int) -> Vid
 def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path], list[dict]]:
     image_base_url = (os.getenv("IMAGE_API_BASE_URL") or "https://tongyi-mai-z-image-turbo.hf.space").rstrip("/")
     image_ratio = os.getenv("IMAGE_RATIO") or "1024x1024 ( 1:1 )"
-    video_base_url = (os.getenv("VIDEO_API_BASE_URL") or "").rstrip("/")
+    video_base_url = (os.getenv("VIDEO_API_BASE_URL") or "https://zerocollabs-ltx-2-3-turbo.hf.space").rstrip("/")
     video_high_res = (os.getenv("VIDEO_HIGH_RES") or "false").lower() == "true"
     default_duration = float(os.getenv("VIDEO_DURATION_SECONDS") or "3.0")
+    video_height = int(os.getenv("VIDEO_HEIGHT") or "768")
+    video_width = int(os.getenv("VIDEO_WIDTH") or "512")
 
     images_dir = ensure_dir(run_root / "assets" / "images")
     clips_dir = ensure_dir(run_root / "assets" / "clips")
@@ -147,6 +149,8 @@ def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path],
                 base_url=video_base_url,
                 duration_seconds=segment.duration_seconds or default_duration,
                 high_res=video_high_res,
+                height=video_height,
+                width=video_width,
             )
             clips.append(generated_clip)
             segment_record["clip_path"] = str(generated_clip)

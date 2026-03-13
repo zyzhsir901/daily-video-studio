@@ -114,20 +114,6 @@ def generate_image(
     return _save_artifact(base_url, gallery, output_path)
 
 
-def infer_video_resolution(image_path: Path, base_url: str, high_res: bool) -> tuple[int, int]:
-    event_id = _post_event(
-        base_url,
-        "on_image_upload",
-        [{"path": str(image_path), "meta": {"_type": "gradio.FileData"}}, high_res],
-    )
-    result = _wait_for_event(base_url, "on_image_upload", event_id)
-    if not isinstance(result, list) or len(result) < 2:
-        raise ValueError("Video resolution endpoint returned an unexpected payload")
-    width = int(result[0])
-    height = int(result[1])
-    return width, height
-
-
 def generate_video(
     image_path: Path,
     output_path: Path,
@@ -138,20 +124,25 @@ def generate_video(
     seed: int = 10,
     randomize_seed: bool = True,
     enhance_prompt: bool = False,
+    height: int = 768,
+    width: int = 512,
+    generation_mode: str = "Image-to-Video",
 ) -> Path:
-    width, height = infer_video_resolution(image_path, base_url, high_res)
     event_id = _post_event(
         base_url,
         "generate_video",
         [
             {"path": str(image_path), "meta": {"_type": "gradio.FileData"}},
+            {"path": str(image_path), "meta": {"_type": "gradio.FileData"}},
             prompt,
             duration_seconds,
+            generation_mode,
             enhance_prompt,
             seed,
             randomize_seed,
             height,
             width,
+            None,
         ],
     )
     result = _wait_for_event(base_url, "generate_video", event_id, timeout=1800)
