@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
+import shutil
 
 from dotenv import load_dotenv
 
@@ -22,6 +23,10 @@ def _project_root() -> Path:
 
 def _run_root(report_date: str) -> Path:
     return _project_root() / "today-international-news" / "runs" / report_date
+
+
+def _runs_root() -> Path:
+    return _project_root() / "today-international-news" / "runs"
 
 
 def _require_env(name: str) -> str:
@@ -65,6 +70,14 @@ def _save_script(path: Path, package: VideoPackage) -> None:
         )
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines).strip() + "\n", encoding="utf-8")
+
+
+def _clear_previous_outputs() -> None:
+    runs_root = _runs_root()
+    if runs_root.exists():
+        shutil.rmtree(runs_root)
+    ensure_dir(runs_root)
+    (runs_root / ".gitkeep").write_text("", encoding="utf-8")
 
 
 def _write_inputs(inputs_dir: Path, items: list[NewsItem], digest: str) -> None:
@@ -155,6 +168,7 @@ def run_pipeline() -> Path:
 
     report_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     max_news = int(os.getenv("PIPELINE_MAX_NEWS", "8"))
+    _clear_previous_outputs()
     run_root = _run_root(report_date)
     ensure_dir(run_root)
 

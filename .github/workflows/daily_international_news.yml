@@ -49,7 +49,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add today-international-news/runs/
+          git add -A today-international-news/
           git diff --cached --quiet && exit 0
           git commit -m "Generate global news video package"
           git push

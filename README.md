@@ -85,4 +85,4 @@ Important:
 - The provided video API URL in your request is local to the machine running the service.
 - GitHub-hosted runners cannot reach `127.0.0.1` on your computer.
 - For full video generation on GitHub Actions, point `VIDEO_API_BASE_URL` to a reachable deployment or run the workflow on a self-hosted runner.
-
+- Before each run, the pipeline clears the previous generated content under `today-international-news/runs/` and then commits the new images, clips, manifests, and final video back to GitHub.
