@@ -1,0 +1,29 @@
+select_and_summarize_news:
+  description: |
+    今天的日期是 {report_date}。
+
+    请阅读下面整理好的国际新闻候选条目，筛选出 5 到 8 条最重要的事件，并输出中文日报初稿。
+
+    候选新闻：
+    {news_digest}
+
+    要求：
+    1. 优先选择真正具有国际影响力的事件，避免同质化条目。
+    2. 每条新闻包含：标题、2 到 3 句摘要、影响点。
+    3. 最后补一段“今日观察”，总结当天国际局势主线。
+    4. 如果信息不足，明确写出“依据标题与导语推断”。
+    5. 输出为 Markdown。
+  expected_output: "一份结构完整的中文国际新闻日报 Markdown 初稿。"
+  agent: news_editor
+
+review_report:
+  description: |
+    请审校这份国际新闻日报，确保：
+    1. 结构统一，标题清晰。
+    2. 避免绝对化和夸张表达。
+    3. 明确区分事实与推断。
+    4. 保持中文自然、简洁、适合作为日报发布。
+    5. 保留 Markdown 格式。
+  expected_output: "经过审校、可以直接保存发布的 Markdown 国际新闻日报。"
+  agent: quality_reviewer
+

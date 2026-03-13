@@ -1,0 +1,4 @@
+crewai>=0.175.0,<0.176.0
+openai>=1.13.3
+python-dotenv>=1.0.1
+
