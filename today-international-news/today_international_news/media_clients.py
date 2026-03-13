@@ -212,12 +212,7 @@ def _artifact_candidates(reference: Any) -> list[str]:
 
 def _save_artifact(base_url: str, reference: Any, output_path: Path) -> Path:
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    source = _artifact_url(base_url, reference)
-    if not source:
-        for candidate in _artifact_candidates(reference):
-            source = _artifact_url(base_url, candidate)
-            if source:
-                break
+    source = resolve_artifact_source(base_url, reference)
     if not source:
         raise ValueError(
             "Could not resolve artifact location from API response. "
@@ -238,6 +233,17 @@ def _save_artifact(base_url: str, reference: Any, output_path: Path) -> Path:
     return output_path
 
 
+def resolve_artifact_source(base_url: str, reference: Any) -> str | None:
+    source = _artifact_url(base_url, reference)
+    if source:
+        return source
+    for candidate in _artifact_candidates(reference):
+        source = _artifact_url(base_url, candidate)
+        if source:
+            return source
+    return None
+
+
 def generate_image(
     prompt: str,
     output_path: Path,
@@ -247,7 +253,7 @@ def generate_image(
     steps: int = 8,
     time_shift: int = 3,
     random_seed: bool = True,
-) -> Path:
+) -> tuple[Path, str | None]:
     event_id = _post_event(
         base_url,
         "generate",
@@ -258,7 +264,9 @@ def generate_image(
         raise ValueError("Image generation returned an unexpected payload")
     gallery = result[0]
     print(f"Image API result preview: {_preview(gallery)}")
-    return _save_artifact(base_url, gallery, output_path)
+    source = resolve_artifact_source(base_url, gallery)
+    saved_path = _save_artifact(base_url, gallery, output_path)
+    return saved_path, source
 
 
 def generate_video(
@@ -283,13 +291,15 @@ def generate_video(
     fps: str = "16",
     display_result: bool = True,
     event_timeout_seconds: int = 120,
+    input_image_reference: str | None = None,
 ) -> Path:
+    image_input = input_image_reference or str(image_path)
     event_id = _post_event(
         base_url,
         "generate_video",
         [
-            {"path": str(image_path), "meta": {"_type": "gradio.FileData"}},
-            {"path": str(image_path), "meta": {"_type": "gradio.FileData"}},
+            {"path": image_input, "meta": {"_type": "gradio.FileData"}},
+            {"path": image_input, "meta": {"_type": "gradio.FileData"}},
             prompt,
             inference_steps,
             negative_prompt,

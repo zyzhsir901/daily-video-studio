@@ -140,6 +140,7 @@ def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path],
             "rank": segment.rank,
             "headline": segment.headline,
             "image_path": None,
+            "image_source": None,
             "clip_path": None,
             "edited_clip_path": None,
             "image_status": "pending",
@@ -148,15 +149,18 @@ def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path],
         }
 
         try:
-            generated_image = generate_image(
+            generated_image, image_source = generate_image(
                 prompt=segment.image_prompt,
                 output_path=image_path,
                 base_url=image_base_url,
                 ratio=image_ratio,
             )
             segment_record["image_path"] = str(generated_image)
+            segment_record["image_source"] = image_source
             segment_record["image_status"] = "ok"
             _log_artifact(f"Segment {segment.rank} image", generated_image)
+            if image_source:
+                print(f"Segment {segment.rank} image source URL: {image_source}")
         except Exception as exc:
             segment_record["image_status"] = f"failed: {exc}"
             segment_record["video_status"] = "skipped"
@@ -190,6 +194,7 @@ def _generate_assets(run_root: Path, package: VideoPackage) -> tuple[list[Path],
                 fps=os.getenv("VIDEO_FPS") or "16",
                 display_result=(os.getenv("VIDEO_DISPLAY_RESULT") or "true").lower() == "true",
                 event_timeout_seconds=video_event_timeout_seconds,
+                input_image_reference=image_source,
             )
             segment_record["clip_path"] = str(generated_clip)
             segment_record["video_status"] = "ok"
