@@ -1,0 +1,51 @@
+{
+  "report_date": "2026-03-13",
+  "rss_url": "https://news.google.com/rss/headlines/section/topic/WORLD?hl=en-US&gl=US&ceid=US:en",
+  "topic_url": "https://news.google.com/topics/CAAqKggKIiRDQkFTRlFvSUwyMHZNRGx1YlY4U0JXVnVMVWRDR2dKRFFTZ0FQAQ?hl=en-US&gl=US&ceid=US%3Aen",
+  "selected_segments": 5,
+  "video_title": "全球动荡：中东冲突与大国地缘博弈的连环冲击",
+  "final_video_path": null,
+  "final_video_status": "skipped",
+  "segments": [
+    {
+      "rank": 1,
+      "headline": "伊朗最高领袖强硬表态：战事升级",
+      "image_path": null,
+      "clip_path": null,
+      "image_status": "failed: Could not resolve artifact location from API response",
+      "video_status": "skipped"
+    },
+    {
+      "rank": 2,
+      "headline": "能源市场面临史无前例的破坏",
+      "image_path": null,
+      "clip_path": null,
+      "image_status": "failed: Could not resolve artifact location from API response",
+      "video_status": "skipped"
+    },
+    {
+      "rank": 3,
+      "headline": "俄罗斯的‘隐秘之手’：代理人战争阴影",
+      "image_path": null,
+      "clip_path": null,
+      "image_status": "failed: Could not resolve artifact location from API response",
+      "video_status": "skipped"
+    },
+    {
+      "rank": 4,
+      "headline": "美国贸易新政：重拳瞄准全球供应链",
+      "image_path": null,
+      "clip_path": null,
+      "image_status": "failed: Could not resolve artifact location from API response",
+      "video_status": "skipped"
+    },
+    {
+      "rank": 5,
+      "headline": "智利政坛右转：南美地缘格局重塑",
+      "image_path": null,
+      "clip_path": null,
+      "image_status": "failed: No result returned for endpoint generate",
+      "video_status": "skipped"
+    }
+  ]
+}
